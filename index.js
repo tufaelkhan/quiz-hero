@@ -1,4 +1,3 @@
-// global variable declarationcountDown
 let count = 0;
 let timer;
 let quizData;
@@ -9,7 +8,7 @@ let startQuiz = document.querySelector("#startQuiz");
 let rulesContainer = document.querySelector("#rulesContainer");
 let alertContainer = document.querySelector("#alertContainer");
 let submitContainer = document.querySelector("#submitContainer");
-let quizContainer = document.getElementById("quizContainer");
+let quizContainer = document.querySelector("#quizContainer");
 let answersContainer = document.querySelector("#answersContainer");
 let displayResult = document.querySelector("#displayResult");
 
@@ -40,29 +39,26 @@ startQuiz.addEventListener("click", () => {
     }
     counter.innerText = counterNum;
     counterNum--;
-  }, );
+  },);
 });
 
 // All quiz data fetched from json
-const loadQuiz =() => {
-  fetch("./data/quiz.json")
-  .then(res => res.json())
-  .then(data => displayQuiz(data))
-
-  // quizData = data;
-  // console.log(data);
-  // displayQuiz(data);
+const loadQuiz = async () => {
+  const res = await fetch("./data/quiz.json");
+  const data = await res.json();
+  quizData = data;
+  displayQuiz(data);
 };
 
 // Displaying quiz on quiz page
 const displayQuiz = (data) => {
+  console.log(data)
   if (!data) {
     quizContainer.innerHTML = "";
     return;
   }
 
-  data.forEach((quiz,i) => {
-    console.log(quiz.options[0])
+  data.forEach((quiz, i) => {
     quizContainer.innerHTML += `<div class="m-3 py-3 px-4 shadow-sm rounded">
   <div class="flex items-center">
     <div class="h-8 w-8 bg-green-300 rounded-full flex justify-center items-center text-green-800 mr-3">
@@ -83,7 +79,7 @@ document.querySelector("#submit").addEventListener("click", () => {
     return;
   }
   quizTimer(true);
-  answersContainer.innerHTML = `<div class="my-4">
+  answersContainer.innerHTML += `<div class="my-4">
   <i class="fa-solid fa-fan animate-spin text-2xl text-green-600"></i>
   <p class="text-xs animate-pulse">Please Wait, We are checking...</p>
 </div>`;
@@ -112,7 +108,7 @@ document.querySelector("#submit").addEventListener("click", () => {
   }
 
   // data setting on local storage and getting data from local storage
-  let storage = JSON.parse(localStorage.getItem("result"));
+  let storage = JSON.parse(localStorage.getItem("results"));
   if (storage) {
     localStorage.setItem(
       "results",

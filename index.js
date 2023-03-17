@@ -39,7 +39,7 @@ startQuiz.addEventListener("click", () => {
     }
     counter.innerText = counterNum;
     counterNum--;
-  },);
+  },1000);
 });
 
 // All quiz data fetched from json
